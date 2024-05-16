@@ -1179,8 +1179,8 @@ DynamicPartitionControlAndroid::GetPartitionDevice(
   }
   // Try static partitions.
   auto static_path = GetStaticDevicePath(device_dir, partition_name_suffix);
-  if (!DeviceExists(static_path)) {
-    LOG(ERROR) << "Device file " << static_path << " does not exist.";
+  if  (!DeviceExists(static_path)) {
+    LOG(INFO) << "Device file " << static_path << " does not exist.";
     return {};
   }
 

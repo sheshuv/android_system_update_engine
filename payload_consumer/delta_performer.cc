@@ -761,17 +761,17 @@ bool DeltaPerformer::ParseManifestPartitions(ErrorCode* error) {
     auto generator = partition_update_generator::Create(boot_control_,
                                                         manifest_.block_size());
     std::vector<PartitionUpdate> untouched_static_partitions;
-    if (!generator->GenerateOperationsForPartitionsNotInPayload(
-            install_plan_->source_slot,
-            install_plan_->target_slot,
-            touched_partitions,
-            &untouched_static_partitions)) {
-      LOG(ERROR)
-          << "Failed to generate operations for partitions not in payload "
-          << android::base::Join(touched_partitions, ", ");
-      *error = ErrorCode::kDownloadStateInitializationError;
-      return false;
-    }
+//    if (!generator->GenerateOperationsForPartitionsNotInPayload(
+//            install_plan_->source_slot,
+//            install_plan_->target_slot,
+//            touched_partitions,
+//            &untouched_static_partitions)) {
+//      LOG(ERROR)
+//          << "Failed to generate operations for partitions not in payload "
+//          << android::base::Join(touched_partitions, ", ");
+//      *error = ErrorCode::kDownloadStateInitializationError;
+//      return false;
+//    }
     partitions_.insert(partitions_.end(),
                        untouched_static_partitions.begin(),
                        untouched_static_partitions.end());
@@ -1147,7 +1147,7 @@ ErrorCode DeltaPerformer::CheckTimestampError() const {
     // But max_timestamp can be empty
     for (const auto& partition : partitions) {
       auto error_code = timestamp_valid(
-          partition, false /* allow_empty_version */, &downgrade_detected);
+          partition, true /* allow_empty_version */, &downgrade_detected);
       if (error_code != ErrorCode::kSuccess &&
           error_code != ErrorCode::kPayloadTimestampError) {
         return error_code;
